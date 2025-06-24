@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Содержимое файла{% endblock %}
+
+{% block content %}
+
+    <!-- Форма для ввода IP -->
+    <div class="ip-form" style="max-width: 500px; margin: 20px auto; padding: 20px; border: 2px solid #000; border-radius: 8px; font-family: Arial, sans-serif;">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                {{ form.ip_address.label_tag }}
+                {{ form.ip_address }}
+                {% if form.ip_address.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.9em; margin-top: 5px;">{{ form.ip_address.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                {{ form.ports.label_tag }}
+                {{ form.ports }}
+                {% if form.ports.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.9em; margin-top: 5px;">{{ form.ports.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                {{ form.rx_threshold.label_tag }}
+                {{ form.rx_threshold }}
+                {% if form.rx_threshold.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.9em; margin-top: 5px;">{{ form.rx_threshold.errors }}</div>
+                {% endif %}
+            </div>
+            
+
+
+            <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Отправить</button>
+            <a href="http://127.0.0.1:8000/" style="text-decoration: none; margin-left: 10px;">
+                <button type="button" class="btn btn-secondary" style="background-color: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+                    На главную
+                </button>
+            </a>
+        </form>
+    </div>
+
+
+    {% if show_content %}
+
+    <div class="results-container" style="margin-top: 20px; border: 1px solid #ddd; padding: 15px; background: #f9f9f9;">
+        <a href="{% url 'download_file' %}" style="text-decoration: none;">
+            <button style="
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            ">
+                ⬇ Скачать файл
+            </button>
+        </a>
+        <h3>Результаты проверки:</h3>
+        {% if file_content %}
+            <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ file_content }}</pre>
+        {% else %}
+            <p>Нет данных для отображения</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <style>
+        /* Дополнительные стили только для этой страницы */
+        .text-content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+{% endblock %}
