@@ -7,7 +7,6 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'onu_warden.settings')
-    print(str(os.getenv('DJANGO_SECRET_KEY')))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
